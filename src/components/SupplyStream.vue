@@ -11,7 +11,7 @@
     </p> -->
     <v-ons-toolbar>
       <div class="left">
-        <v-ons-back-button>Request Stream</v-ons-back-button>
+        <v-ons-back-button></v-ons-back-button>
       </div>
       <div class="center">Supply Stream</div>
     </v-ons-toolbar>
