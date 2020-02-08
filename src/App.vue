@@ -27,19 +27,20 @@
             </p>
 
             <!-- <p> -->
-            <input type="text" class="form-control" value="stream1" id="streamName" placeholder="Type stream name" />
+            <!-- <input type="text" class="form-control" :value="this.streamNameBox.value" id="streamName" placeholder="Type stream name" /> -->
+            <input type="text" class="form-control" v-model="streamNameBox" id="streamName" placeholder="Type stream name" />
             <div class="form-check">
-                <input class="form-check-input" disabled onchange="enableDesktopCapture(event.target.checked)" type="checkbox" value="" id="screen_share_checkbox" />
-                <label class="form-check-label" for="screen_share_checkbox" style="font-weight:normal">
+                <!-- <input class="form-check-input" disabled onchange="enableDesktopCapture(event.target.checked)" type="checkbox" value="" id="screen_share_checkbox" /> -->
+                <!-- <label class="form-check-label" for="screen_share_checkbox" style="font-weight:normal">
                     Screen Share
-                </label> <br />
-                <a id="install_chrome_extension_link" href="https://chrome.google.com/webstore/detail/jaefaokkgpkkjijgddghhcncipkebpnb">Install Chrome Extension</a>
+                </label> <br /> -->
+                <!-- <a id="install_chrome_extension_link" href="https://chrome.google.com/webstore/detail/jaefaokkgpkkjijgddghhcncipkebpnb">Install Chrome Extension</a> -->
             </div>
             <!-- </p> -->
             <p>
 
-                <button onclick="startPublishing()" class="btn btn-info" :disabled="start_publish_button.disabled" id="start_publish_button">Start Publishing</button>
-                <button onclick="stopPublishing()" class="btn btn-info" :disabled="stop_publish_button.disabled" id="stop_publish_button">Stop Publishing</button>
+                <button @click="startPublishing" class="btn btn-info" :disabled="start_publish_button.disabled" id="start_publish_button">Start Publishing</button>
+                <button @click="stopPublishing" class="btn btn-info" :disabled="stop_publish_button.disabled" id="stop_publish_button">Stop Publishing</button>
 
             </p>
 
@@ -136,18 +137,18 @@ body {
 
 
 <script>
-//import 'webrtc-adapter';
+import 'webrtc-adapter';
 import $ from 'jquery'
 
 
-import '@/js/fetch.js'
-import '@/js/fetch.stream.js'
-import '@/js/promise.min.js'
+// import '@/js/fetch.js'
+// import '@/js/fetch.stream.js'
+// import '@/js/promise.min.js'
 import { WebRTCAdaptor } from '@/js/webrtc_adaptor.js'
 
 
 
-console.log(WebRTCAdaptor)
+//console.log(WebRTCAdaptor)
 
 export default {
     data() {
@@ -156,7 +157,8 @@ export default {
             stop_publish_button: {disabled:true},
             screen_share_checkbox: '',
             install_extension_link: '',
-            streamNameBox: '',
+            //streamNameBox: {value:'stream1'},
+            streamNameBox:'stream1',
             streamId: '',
             name: '',
             pc_config: '',
@@ -167,22 +169,23 @@ export default {
         }
     },
     methods: {
-        getUrlParameter(sParam) {
-            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
+        // getUrlParameter(sParam) {
+        //     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        //         sURLVariables = sPageURL.split('&'),
+        //         sParameterName,
+        //         i;
 
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
+        //     for (i = 0; i < sURLVariables.length; i++) {
+        //         sParameterName = sURLVariables[i].split('=');
 
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : sParameterName[1];
-                }
-            }
-        },
+        //         if (sParameterName[0] === sParam) {
+        //             return sParameterName[1] === undefined ? true : sParameterName[1];
+        //         }
+        //     }
+        // },
         startPublishing() {
-            this.streamId = this.streamNameBox.value;
+            //this.streamId = this.streamNameBox.value;
+            this.streamId = this.streamNameBox
             this.webRTCAdaptor.publish(this.streamId);
         },
         stopPublishing() {
@@ -197,8 +200,8 @@ export default {
         },
         startAnimation() {
 
-            $("#broadcastingInfo").fadeIn(800, function () {
-                $("#broadcastingInfo").fadeOut(800, function () {
+            $("#broadcastingInfo").fadeIn(800, () => {
+                $("#broadcastingInfo").fadeOut(800, () => {
                     var state = this.webRTCAdaptor.signallingState(this.streamId);
                     if (state != null && state != "closed") {
                         var iceState = this.webRTCAdaptor.iceConnectionState(this.streamId);
@@ -213,22 +216,28 @@ export default {
 
     },
     mounted() {
-        
+
+        // let adapterlatest = document.createElement('script')
+        // adapterlatest.setAttribute('src', 'https://webrtc.github.io/adapter/adapter-latest.js')
+        // document.head.appendChild(adapterlatest)
+
+        //console.log(this.streamNameBox)
         //this.start_publish_button = document.getElementById("start_publish_button");
         //this.stop_publish_button = document.getElementById("stop_publish_button");
 
-        this.screen_share_checkbox = document.getElementById("screen_share_checkbox");
-        this.install_extension_link = document.getElementById("install_chrome_extension_link");
+        //this.screen_share_checkbox = document.getElementById("screen_share_checkbox");
+        //this.install_extension_link = document.getElementById("install_chrome_extension_link");
 
-        this.streamNameBox = document.getElementById("streamName");
+        //this.streamNameBox.value = document.getElementById("streamName").value;
 
-        this.streamId;
+        //this.streamId;
 
-        this.name = this.getUrlParameter("name");
+        //this.name = this.getUrlParameter("name");
 
-        if (this.name !== "undefined") {
-            this.streamNameBox.value = this.name;
-        }
+        // if (this.name !== "undefined") {
+        //     //this.streamNameBox.value = this.name;
+        //     this.streamNameBox = this.name;
+        // }
 
         this.pc_config = null;
 
@@ -267,9 +276,9 @@ export default {
                     this.start_publish_button.disabled = false;
                     this.stop_publish_button.disabled = true;
                 } else if (info == "screen_share_extension_available") {
-                    this.screen_share_checkbox.disabled = false;
-                    console.log("screen share extension available");
-                    this.install_extension_link.style.display = "none";
+                    //this.screen_share_checkbox.disabled = false;
+                    //console.log("screen share extension available");
+                    //this.install_extension_link.style.display = "none";
                 } else if (info == "screen_share_stopped") {
                     console.log("screen share stopped");
                 } else if (info == "closed") {
