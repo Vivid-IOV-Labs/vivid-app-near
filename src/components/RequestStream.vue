@@ -3,17 +3,23 @@
     <v-ons-toolbar>
         <div class="center">Request Stream</div>
     </v-ons-toolbar>
-    <input type="text" class="form-control" v-model="streamNameBox" id="streamName" placeholder="Type stream name" />
-    <div id="video_info">Stream will start playing automatically<br />when it is live</div>
-    <video id="remoteVideo" autoplay controls playsinline style="display:none;"></video>
-    <img id="play_button" src="images/play.png" @click="playVideo" style="position:absolute;top:30px;left:30px;display:none;" />
-    <p style="text-align: center">
-        <v-ons-button @click="push">Supply Stream</v-ons-button>
-    </p>
+
+    <div id="map" class="map"></div>
+    <section id="nav_buttons" style="text-align: center; margin-top: 5em">
+
+        <div style="display:block">
+            <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">View Stream</v-ons-button>
+        </div>
+        <div style="display:block">
+            <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToSupplyStreamPage()">Supply Stream</v-ons-button>
+        </div>
+    </section>
 </v-ons-page>
 </template>
 
-<style>
+<style scoped>
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../../node_modules/leaflet/dist/leaflet.css';
 @import '../css/player.css';
 
 video {
@@ -21,117 +27,131 @@ video {
     max-width: 640px;
     max-height: 400px;
 }
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body,
+#map {
+    height: 70vh;
+    width: 100vw;
+}
+
+#nav_buttons {
+    height: 30vh;
+}
 </style>
 
 <script>
 import SupplyStream from '@/components/SupplyStream.vue'
-import 'webrtc-adapter';
-//import $ from 'jquery'
-import {
-    WebRTCAdaptor
-} from '@/js/webrtc_adaptor.js'
+import ViewStream from '@/components/ViewStream.vue'
+
+import L from 'leaflet'
+
+console.log(L)
 
 export default {
     name: 'requestStream',
     data() {
         return {
-            webRTCAdaptor: null,
-            streamId: 'streamId',
-            pc_config: null,
-            sdpConstraints: {
-                OfferToReceiveAudio: true,
-                OfferToReceiveVideo: true
-            },
-            mediaConstraints: {
-                video: false,
-                audio: false
-
-            },
-            streamNameBox:'stream1'
+            map: null,
+            tileLayer: null,
+            layers: [],
+            options: {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            }
         }
     },
-        methods: {
-                push() {
-                    this.$emit('push-page', SupplyStream);
-                },
-                playVideo() {
-                    document.getElementById("remoteVideo").style.display = "block";
-                    document.getElementById("remoteVideo").play().then(function () {
-                        //autoplay started
-                        document.getElementById("play_button").style.display = "none";
-                    }).catch(function () {
-                        //
-                        document.getElementById("play_button").style.display = "block";
-                        console.log("User interaction needed to start playing");
-                    });
-                },
-                startPlaying() {
-                    this.webRTCAdaptor.play(this.streamNameBox);
-                },
-                stopPlaying() {
-                    this.webRTCAdaptor.stop();
-                }
-            },
-            mounted() {
-                //var streamId = "streamId";
+    methods: {
+        pushToViewStreamPage() {
+            this.$emit('push-page', ViewStream);
+        },
+        pushToSupplyStreamPage() {
+            this.$emit('push-page', SupplyStream);
+        },
+        onLocationFound(e) {
+            var radius = e.accuracy;
 
-                //var pc_config = null;
-                // var sdpConstraints = {
-                //     OfferToReceiveAudio: true,
-                //     OfferToReceiveVideo: true
-                // };
-                // var mediaConstraints = {
-                //     video: false,
-                //     audio: false
-                // };
+            L.marker(e.latlng).addTo(this.map)
+                .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-                this.webRTCAdaptor = new WebRTCAdaptor({
-                    websocket_url: "wss://test.antmedia.io:5443/WebRTCAppEE/websocket",
-                    mediaConstraints: this.mediaConstraints,
-                    peerconnection_config: this.pc_config,
-                    sdp_constraints: this.sdpConstraints,
-                    remoteVideoId: "remoteVideo",
-                    isPlayMode: true,
-                    debug: true,
-                    callback: (info, description) => {
-                        if (info == "initialized") {
-                            console.log("initialized");
-                            this.webRTCAdaptor.getStreamInfo(this.streamId);
-                        } else if (info == "streamInformation") {
-                            console.log("stream information");
-                            this.webRTCAdaptor.play(this.streamId);
-                        } else if (info == "play_started") {
-                            //joined the stream
-                            console.log("play started");
-                            document.getElementById("video_info").style.display = "none";
-                            this.playVideo();
-                        } else if (info == "play_finished") {
-                            //leaved the stream
-                            console.log("play finished");
-                            //check that publish may start again
-                            setTimeout(function () {
-                                this.webRTCAdaptor.getStreamInfo(this.streamId);
-                            }, 3000);
-                        } else if (info == "closed") {
-                            //console.log("Connection closed");
-                            if (typeof description != "undefined") {
-                                console.log("Connecton closed: " + JSON.stringify(description));
-                            }
-                        }
-                    },
-                    callbackError: function (error) {
-                        //some of the possible errors, NotFoundError, SecurityError,PermissionDeniedError
-                        console.log("error callback: " + JSON.stringify(error));
+            L.circle(e.latlng, radius).addTo(this.map);
+        },
+        onLocationError(e) {
+            alert(e.message)
+        },
+        initMap() {
+            // this.map = L.map('map').setView([38.63, -90.23], 12);
+            // this.tileLayer = L.tileLayer(
+            //     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png', {
+            //         maxZoom: 18,
+            //         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
+            //     }
+            // );
+            // this.tileLayer.addTo(this.map);
 
-                        if (error == "no_stream_exist") {
-                            setTimeout(function () {
-                                this.webRTCAdaptor.getStreamInfo(this.streamId);
-                            }, 3000);
-                        }
-                        //alert(JSON.stringify(error));
-                    }
-                });
+            this.map = L.map('map').fitWorld();
 
-            }
+            this.map.locate({
+                setView: true,
+                maxZoom: 24
+            });
+
+        },
+        initLayers() {
+
+            this.tileLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 36,
+                id: 'mapbox/streets-v11'
+            }).addTo(this.map);
+        },
+        locationSuccess(pos) {
+            var crd = pos.coords;
+
+            console.log('Your current position is:');
+            console.log(`Latitude : ${crd.latitude}`);
+            console.log(`Longitude: ${crd.longitude}`);
+            console.log(`More or less ${crd.accuracy} meters.`);
+        },
+
+        locationError(err) {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }
+    },
+    mounted() {
+        this.initMap();
+        this.initLayers();
+
+        this.map.on('locationfound', this.onLocationFound);
+
+        this.map.on('locationerror', this.onLocationError);
+
+        // var options = {
+        //     enableHighAccuracy: true,
+        //     timeout: 5000,
+        //     maximumAge: 0
+        // };
+
+        // function success(pos) {
+        //     var crd = pos.coords;
+
+        //     console.log('Your current position is:');
+        //     console.log(`Latitude : ${crd.latitude}`);
+        //     console.log(`Longitude: ${crd.longitude}`);
+        //     console.log(`More or less ${crd.accuracy} meters.`);
+        // }
+
+        // function error(err) {
+        //     console.warn(`ERROR(${err.code}): ${err.message}`);
+        // }
+
+        //navigator.geolocation.getCurrentPosition(this.locationSuccess, this.locationError, this.options);
     }
+}
 </script>

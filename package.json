@@ -9,9 +9,11 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
     "jquery": "^1.12.4",
+    "leaflet": "^1.6.0",
     "onsenui": "^2.10.10",
     "serve-static": "^1.14.1",
     "vue": "^2.6.11",

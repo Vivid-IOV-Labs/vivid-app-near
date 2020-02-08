@@ -61,7 +61,9 @@
 </v-ons-page>
 </template>
 
-<style>
+<style scoped>
+@import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 video {
     width: 100%;
     max-width: 640px;
