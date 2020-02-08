@@ -140,9 +140,9 @@ body {
 import $ from 'jquery'
 
 
-import '@/js/fetch.js'
-import '@/js/fetch.stream.js'
-import '@/js/promise.min.js'
+// import '@/js/fetch.js'
+// import '@/js/fetch.stream.js'
+// import '@/js/promise.min.js'
 import { WebRTCAdaptor } from '@/js/webrtc_adaptor.js'
 
 
