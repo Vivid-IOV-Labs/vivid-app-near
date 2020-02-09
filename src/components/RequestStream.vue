@@ -5,7 +5,7 @@
     </v-ons-toolbar>
 
     <div id="map" class="map"></div>
-    <section id="nav_buttons" style="text-align: center; margin-top: 2em">
+    <section id="nav_buttons" style="text-align: center; margin-top: 1em">
 
         <div style="display:block">
             <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">View Stream</v-ons-button>
@@ -41,7 +41,7 @@ body,
 }
 
 #nav_buttons {
-    height: 30vh;
+    height: 20vh;
 }
 </style>
 
