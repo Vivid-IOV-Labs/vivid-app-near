@@ -5,7 +5,7 @@
     </v-ons-toolbar>
 
     <div id="map" class="map"></div>
-    <section id="nav_buttons" style="text-align: center; margin-top: 5em">
+    <section id="nav_buttons" style="text-align: center; margin-top: 2em">
 
         <div style="display:block">
             <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">View Stream</v-ons-button>
@@ -49,9 +49,11 @@ body,
 import SupplyStream from '@/components/SupplyStream.vue'
 import ViewStream from '@/components/ViewStream.vue'
 
-import L from 'leaflet'
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+import * as L from 'leaflet';
+import 'leaflet-defaulticon-compatibility';
 
-console.log(L)
 
 export default {
     name: 'requestStream',
@@ -106,7 +108,7 @@ export default {
         initLayers() {
 
             this.tileLayer = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWEwNnJpaSIsImEiOiJjazZkeTU2NnAxbWF4M2xxajN6NWIyb2l6In0.4iTjEpS8cIa_Um3zhE9keQ', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                 maxZoom: 36,
                 id: 'mapbox/streets-v11'
             }).addTo(this.map);
