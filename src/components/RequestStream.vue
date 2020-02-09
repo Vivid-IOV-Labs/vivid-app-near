@@ -5,7 +5,7 @@
     </v-ons-toolbar>
 
     <div id="map" class="map"></div>
-    <section id="nav_buttons" style="text-align: center; margin-top: 1em">
+    <section id="nav_buttons" style="text-align: center;">
 
         <div style="display:block">
             <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">View Stream</v-ons-button>
@@ -80,7 +80,7 @@ export default {
             var radius = e.accuracy;
 
             L.marker(e.latlng).addTo(this.map)
-                .bindPopup("You are within " + radius + " meters from this point").openPopup();
+                //.bindPopup("You are within " + radius + " meters from this point").openPopup();
 
             L.circle(e.latlng, radius).addTo(this.map);
         },
