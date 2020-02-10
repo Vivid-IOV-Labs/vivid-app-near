@@ -36,7 +36,7 @@ body {
 html,
 body,
 #map {
-    height: 70vh;
+    height: 60vh;
     width: 100vw;
 }
 
@@ -87,7 +87,7 @@ export default {
         onLocationError(e) {
            this.$ons.notification.alert(e.message)
 
-           this.map.setView([51.520748, -0.085040], 12)
+           this.map.setView([51.520748, -0.085040], 6)
 
 
         },
