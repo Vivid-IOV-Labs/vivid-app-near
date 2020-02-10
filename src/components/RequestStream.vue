@@ -85,7 +85,11 @@ export default {
             L.circle(e.latlng, radius).addTo(this.map);
         },
         onLocationError(e) {
-            alert(e.message)
+           this.$ons.notification.alert(e.message)
+
+           this.map.setView([51.520748, -0.085040], 12)
+
+
         },
         initMap() {
             // this.map = L.map('map').setView([38.63, -90.23], 12);
