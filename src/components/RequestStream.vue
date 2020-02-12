@@ -79,9 +79,10 @@ body {
 html,
 body,
 #map {
-    height: 40vh;
+    height: 45vh;
     width: 100vw;
 }
+
 
 #nav_buttons {
     height: 20vh;
