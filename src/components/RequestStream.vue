@@ -79,8 +79,12 @@ body {
 html,
 body,
 #map {
-    height: 50vh;
+    height: 55vh;
     width: 100vw;
+}
+
+#nav_buttons {
+    height: 20vh;
 }
 
 #optionsPanel_section_title {
@@ -94,10 +98,6 @@ body,
     background-size: 100% 1px;
     background-repeat: no-repeat;
     background-position: top;
-}
-
-#nav_buttons {
-    height: 20vh;
 }
 
 #options_panel {
