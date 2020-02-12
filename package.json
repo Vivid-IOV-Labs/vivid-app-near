@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
     "jquery": "^1.12.4",

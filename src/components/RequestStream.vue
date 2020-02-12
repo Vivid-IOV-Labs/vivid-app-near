@@ -83,7 +83,6 @@ body,
     width: 100vw;
 }
 
-
 #nav_buttons {
     height: 20vh;
 }
@@ -118,12 +117,9 @@ body,
     /* color:navy; */
     color: indigo;
 }
-
-
 </style>
 
 <script>
-import SupplyStream from '@/components/SupplyStream.vue'
 import ViewStream from '@/components/ViewStream.vue'
 import RequestStreamFilters from '@/components/RequestStreamFilters.vue'
 
@@ -131,8 +127,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import * as L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
-
-//import 'bootstrap'
+//import $ from 'jquery'
 
 import {
     GeoSearchControl,
@@ -164,9 +159,6 @@ export default {
         pushToViewStreamPage() {
             this.$emit('push-page', ViewStream);
         },
-        pushToSupplyStreamPage() {
-            this.$emit('push-page', SupplyStream);
-        },
         pushToFilterStreamPage() {
             this.$emit('push-page', {
                 extends: RequestStreamFilters,
@@ -179,8 +171,6 @@ export default {
             });
         },
         geoSearchEvent(_data) {
-            console.log(_data)
-            console.log(arguments)
 
             if (this.myLocation) this.map.removeLayer(this.myLocation);
             if (this.myLocationCircle) this.map.removeLayer(this.myLocationCircle);
@@ -188,7 +178,7 @@ export default {
             if (this.geoSearchLocation) this.map.removeLayer(this.geoSearchLocation);
             if (this.geoSearchLocationCircle) this.map.removeLayer(this.geoSearchLocationCircle);
 
-            this.geoSearchLocation = L.marker([_data.location.y, _data.location.x]).addTo(this.map)
+            this.geoSearchLocation = L.marker([_data.location.y, _data.location.x]).addTo(this.map).bindPopup(_data.location.label).openPopup();
             this.geoSearchLocationCircle = L.circle([_data.location.y, _data.location.x], this.defaultRadius).addTo(this.map)
             this.map.setView([_data.location.y, _data.location.x], 15);
 
@@ -197,7 +187,7 @@ export default {
             var radius = e.accuracy;
 
             this.myLocation = L.marker(e.latlng).addTo(this.map)
-            //.bindPopup("You are within " + radius + " meters from this point").openPopup();
+            .bindPopup("You are here").openPopup();
 
             this.myLocationCircle = L.circle(e.latlng, radius).addTo(this.map);
         },
@@ -208,17 +198,6 @@ export default {
 
         },
         initMap() {
-
-            console.log(L)
-
-            // this.map = L.map('map').setView([38.63, -90.23], 12);
-            // this.tileLayer = L.tileLayer(
-            //     'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png', {
-            //         maxZoom: 18,
-            //         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
-            //     }
-            // );
-            // this.tileLayer.addTo(this.map);
 
             this.map = L.map('map').setView([51.520748, -0.085040], 15);
 
@@ -281,25 +260,6 @@ export default {
         this.map.on('locationfound', this.onLocationFound);
 
         this.map.on('locationerror', this.onLocationError);
-
-        // var options = {
-        //     enableHighAccuracy: true,
-        //     timeout: 5000,
-        //     maximumAge: 0
-        // };
-
-        // function success(pos) {
-        //     var crd = pos.coords;
-
-        //     console.log('Your current position is:');
-        //     console.log(`Latitude : ${crd.latitude}`);
-        //     console.log(`Longitude: ${crd.longitude}`);
-        //     console.log(`More or less ${crd.accuracy} meters.`);
-        // }
-
-        // function error(err) {
-        //     console.warn(`ERROR(${err.code}): ${err.message}`);
-        // }
 
         //navigator.geolocation.getCurrentPosition(this.locationSuccess, this.locationError, this.options);
     }

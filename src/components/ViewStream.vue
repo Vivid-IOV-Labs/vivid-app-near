@@ -12,10 +12,16 @@
             <div id="video_info">Stream will start playing automatically<br />when it is live</div>
             <video id="remoteVideo" autoplay controls playsinline style="display:none;"></video>
             <img id="play_button" src="images/play.png" @click="playVideo" style="position:absolute;top:30px;left:30px;display:none;" />
-            <input type="text" class="form-control" v-model="streamNameBox" id="streamName" placeholder="Type stream name" />
+            <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" />
 
         </div>
+
     </div>
+    <section id="nav_buttons" style="text-align: center;">
+        <div style="display:block">
+            <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToSupplyStreamPage()">Supply Stream</v-ons-button>
+        </div>
+    </section>
 
 </v-ons-page>
 </template>
@@ -29,7 +35,6 @@ video {
     max-width: 640px;
     max-height: 400px;
 }
-
 </style>
 
 <script>
@@ -39,12 +44,17 @@ import {
     WebRTCAdaptor
 } from '@/js/webrtc_adaptor.js'
 
+import SupplyStream from '@/components/SupplyStream.vue'
+
+import $ from 'jquery'
+
 export default {
     name: 'viewStream',
     data() {
         return {
             webRTCAdaptor: null,
-            streamId: 'streamId',
+            streamId1: 'streamId',
+            streamId: 'stream1',
             pc_config: null,
             sdpConstraints: {
                 OfferToReceiveAudio: true,
@@ -59,6 +69,9 @@ export default {
         }
     },
     methods: {
+        pushToSupplyStreamPage() {
+            this.$emit('push-page', SupplyStream);
+        },
         playVideo() {
             document.getElementById("remoteVideo").style.display = "block";
             document.getElementById("remoteVideo").play().then(function () {
@@ -71,24 +84,21 @@ export default {
             });
         },
         startPlaying() {
-            this.webRTCAdaptor.play(this.streamNameBox);
+            this.webRTCAdaptor.play(this.streamId);
         },
         stopPlaying() {
             this.webRTCAdaptor.stop();
         }
     },
     mounted() {
-        //var streamId = "streamId";
+        
+        $(document).on('postpop', '#navigator', function () {
+            console.log('postpop')
 
-        //var pc_config = null;
-        // var sdpConstraints = {
-        //     OfferToReceiveAudio: true,
-        //     OfferToReceiveVideo: true
-        // };
-        // var mediaConstraints = {
-        //     video: false,
-        //     audio: false
-        // };
+            // if (page.matches('#page3')) {
+            //     // refresh code 
+            // }
+        });
 
         this.webRTCAdaptor = new WebRTCAdaptor({
             websocket_url: "wss://test.antmedia.io:5443/WebRTCAppEE/websocket",

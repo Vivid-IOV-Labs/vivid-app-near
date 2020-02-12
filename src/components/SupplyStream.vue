@@ -1,68 +1,38 @@
-<template id="supplyStream">
+<template>
 <v-ons-page>
-    <!-- <v-ons-toolbar>
-      <div class="center">Title</div>
-    </v-ons-toolbar>
-
-    <p style="text-align: center">
-      <v-ons-button @click="$ons.notification.alert('Hello World!')">
-        Click me!
-      </v-ons-button>
-    </p> -->
     <v-ons-toolbar>
-      <div class="left">
-        <v-ons-back-button></v-ons-back-button>
-      </div>
-      <div class="center">Supply Stream</div>
+        <div class="left">
+            <v-ons-back-button @click.prevent="closeVideoStream"></v-ons-back-button>
+        </div>
+        <div class="center">Supply Stream</div>
     </v-ons-toolbar>
     <div class="container">
-
-        <!-- <div class="header clearfix">
-            <nav>
-                <ul class="nav navbar-pills pull-right">
-                    <li><a href="http://antmedia.io">Contact</a></li>
-                </ul>
-            </nav>
-            <h3 class="text-muted">WebRTC Publish</h3>
-        </div> -->
 
         <div class="jumbotron">
 
             <p>
                 <video id="localVideo" autoplay muted controls playsinline></video>
             </p>
-
-            <!-- <p> -->
-            <!-- <input type="text" class="form-control" :value="this.streamNameBox.value" id="streamName" placeholder="Type stream name" /> -->
-            <input type="text" class="form-control" v-model="streamNameBox" id="streamName" placeholder="Type stream name" />
-            <!-- <div class="form-check"> -->
-                <!-- <input class="form-check-input" disabled onchange="enableDesktopCapture(event.target.checked)" type="checkbox" value="" id="screen_share_checkbox" /> -->
-                <!-- <label class="form-check-label" for="screen_share_checkbox" style="font-weight:normal">
-                    Screen Share
-                </label> <br /> -->
-                <!-- <a id="install_chrome_extension_link" href="https://chrome.google.com/webstore/detail/jaefaokkgpkkjijgddghhcncipkebpnb">Install Chrome Extension</a> -->
-            <!-- </div> -->
-            <!-- </p> -->
+            <v-ons-input type="text" class="form-control" v-model="streamNameBox" id="streamName" placeholder="Type stream name" ></v-ons-input>
             <p>
 
-                <button @click="startPublishing" class="btn btn-info" :disabled="start_publish_button.disabled" id="start_publish_button">Start Publishing</button>
-                <button @click="stopPublishing" class="btn btn-info" :disabled="stop_publish_button.disabled" id="stop_publish_button">Stop Publishing</button>
+                <v-ons-button @click="startPublishing" class="btn btn-info" :disabled="start_publish_button.disabled" id="start_publish_button">Start Publishing</v-ons-button>
+                <v-ons-button @click="stopPublishing" class="btn btn-info" :disabled="stop_publish_button.disabled" id="stop_publish_button">Stop Publishing</v-ons-button>
 
             </p>
 
             <span class="label label-success" id="broadcastingInfo" style="font-size:14px;display:none">Publishing</span>
 
         </div>
-        <!-- <footer class="footer">
-            <p><a href="http://antmedia.io">Ant Media Server Enterprise Edition</a></p>
-        </footer> -->
 
     </div>
 </v-ons-page>
 </template>
 
-<style scoped>
+<style >
 @import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '../css/player.css';
+
 
 video {
     width: 100%;
@@ -143,34 +113,35 @@ body {
 }
 </style>
 
-
 <script>
-//import RequestStream from '@/components/RequestStream.vue'
-
-
 import 'webrtc-adapter';
 import $ from 'jquery'
-
 
 // import '@/js/fetch.js'
 // import '@/js/fetch.stream.js'
 // import '@/js/promise.min.js'
-import { WebRTCAdaptor } from '@/js/webrtc_adaptor.js'
+import {
+    WebRTCAdaptor
+} from '@/js/webrtc_adaptor.js'
 
 
 
-//console.log(WebRTCAdaptor)
+
 
 export default {
-    name:'supplyStream',
+    name: 'supplyStream',
     data() {
         return {
-            start_publish_button: {disabled:true},
-            stop_publish_button: {disabled:true},
+            start_publish_button: {
+                disabled: true
+            },
+            stop_publish_button: {
+                disabled: true
+            },
             screen_share_checkbox: '',
             install_extension_link: '',
             //streamNameBox: {value:'stream1'},
-            streamNameBox:'stream1',
+            streamNameBox: 'stream1',
             streamId: '',
             name: '',
             pc_config: '',
@@ -181,20 +152,17 @@ export default {
         }
     },
     methods: {
-        // getUrlParameter(sParam) {
-        //     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        //         sURLVariables = sPageURL.split('&'),
-        //         sParameterName,
-        //         i;
+        closeVideoStream() {
 
-        //     for (i = 0; i < sURLVariables.length; i++) {
-        //         sParameterName = sURLVariables[i].split('=');
+            this.webRTCAdaptor.closeStream()
 
-        //         if (sParameterName[0] === sParam) {
-        //             return sParameterName[1] === undefined ? true : sParameterName[1];
-        //         }
-        //     }
-        // },
+            this.webRTCAdaptor.closePeerConnection()
+
+            document.querySelector('ons-navigator').popPage({
+                refresh: true
+            });
+
+        },
         startPublishing() {
             //this.streamId = this.streamNameBox.value;
             this.streamId = this.streamNameBox
@@ -228,28 +196,6 @@ export default {
 
     },
     mounted() {
-
-        // let adapterlatest = document.createElement('script')
-        // adapterlatest.setAttribute('src', 'https://webrtc.github.io/adapter/adapter-latest.js')
-        // document.head.appendChild(adapterlatest)
-
-        //console.log(this.streamNameBox)
-        //this.start_publish_button = document.getElementById("start_publish_button");
-        //this.stop_publish_button = document.getElementById("stop_publish_button");
-
-        //this.screen_share_checkbox = document.getElementById("screen_share_checkbox");
-        //this.install_extension_link = document.getElementById("install_chrome_extension_link");
-
-        //this.streamNameBox.value = document.getElementById("streamName").value;
-
-        //this.streamId;
-
-        //this.name = this.getUrlParameter("name");
-
-        // if (this.name !== "undefined") {
-        //     //this.streamNameBox.value = this.name;
-        //     this.streamNameBox = this.name;
-        // }
 
         this.pc_config = null;
 
