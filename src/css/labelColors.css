@@ -1,0 +1,45 @@
+.phaedra-colors .label {
+  color: #001713;
+}
+.phaedra-colors .label-default {
+  background-color: #95a5a6;
+}
+.phaedra-colors .label-default[href]:hover,
+.phaedra-colors .label-default[href]:focus {
+  background-color: #7f8c8d;
+}
+.phaedra-colors .label-primary {
+  background-color: #00a388;
+}
+.phaedra-colors .label-primary[href]:hover,
+.phaedra-colors .label-primary[href]:focus {
+  background-color: #007d68;
+}
+.phaedra-colors .label-success {
+  background-color: #79bd8f;
+}
+.phaedra-colors .label-success[href]:hover,
+.phaedra-colors .label-success[href]:focus {
+  background-color: #659e78;
+}
+.phaedra-colors .label-info {
+  background-color: #beeb9f;
+}
+.phaedra-colors .label-info[href]:hover,
+.phaedra-colors .label-info[href]:focus {
+  background-color: #a5cc8a;
+}
+.phaedra-colors .label-warning {
+  background-color: #ffff9d;
+}
+.phaedra-colors .label-warning[href]:hover,
+.phaedra-colors .label-warning[href]:focus {
+  background-color: #d1d181;
+}
+.phaedra-colors .label-danger {
+  background-color: #ff6138;
+}
+.phaedra-colors .label-danger[href]:hover,
+.phaedra-colors .label-danger[href]:focus {
+  background-color: #d6512f;
+}

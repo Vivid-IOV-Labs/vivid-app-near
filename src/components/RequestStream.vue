@@ -2,41 +2,58 @@
 <v-ons-page>
     <v-ons-toolbar>
         <div class="center">Request Stream</div>
+        <div class="right">
+            <v-ons-button @click="pushToFilterStreamPage" class="right" style="background-color: Transparent;">
+                <ons-icon style="color: black;" size="10px" icon="fa-filter"></ons-icon>
+            </v-ons-button>
+        </div>
     </v-ons-toolbar>
     <v-ons-list>
-        <v-ons-list-item>
-            Adjust the range size:
-            <v-ons-row>
-                <!-- <v-ons-col width="40px" style="text-align: center; line-height: 31px;">
-            <v-ons-icon icon="md-volume-down"></v-ons-icon>
-          </v-ons-col> -->
-                <v-ons-col>
+        <v-ons-list-item id="expandable_section" expandable :expanded.sync="optionsPanelView">
+            <span id="expandable_section_title">options</span>
+            <div class="expandable-content ">
+                <div id="options_panel" class="phaedra-colors">
+                    <v-ons-row>
+                        <v-ons-col>
+                            Tags:
+                            <span class="label-info">Street View</span>
 
-                    <v-ons-range style="width: 100%;"></v-ons-range>
-
-                </v-ons-col>
-                <!-- <v-ons-col width="40px" style="text-align: center; line-height: 31px;">
-            <v-ons-icon icon="md-volume-up"></v-ons-icon>
-          </v-ons-col> -->
-            </v-ons-row>
-            <!-- Volume: {{ volume }} <span v-show="Number(volume) > 80">&nbsp;(careful, that's loud)</span> -->
+                        </v-ons-col>
+                    </v-ons-row>
+                    <v-ons-row>
+                        <v-ons-col>
+                            Will Accept:
+                            <span>People looking for the items</span>
+                        </v-ons-col>
+                    </v-ons-row>
+                    <v-ons-row>
+                        <v-ons-col>
+                            Tip Offered:
+                            <span>$0.05/min</span>
+                        </v-ons-col>
+                    </v-ons-row>
+                </div>
+            </div>
         </v-ons-list-item>
     </v-ons-list>
 
     <div id="map" class="map"></div>
 
     <section id="nav_buttons" style="text-align: center;">
-
-        <!-- <div style="display:block">
-            <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">Send Request</v-ons-button>
-        </div> -->
-
+        <v-ons-list>
+            <v-ons-list-item>
+                <!-- Adjust the range size: -->
+                <v-ons-row>
+                    <v-ons-col>
+                        <v-ons-range style="width: 100%;"></v-ons-range>
+                    </v-ons-col>
+                </v-ons-row>
+                <!-- Volume: {{ volume }} <span v-show="Number(volume) > 80">&nbsp;(careful, that's loud)</span> -->
+            </v-ons-list-item>
+        </v-ons-list>
         <div style="display:block">
             <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">Send Request</v-ons-button>
         </div>
-        <!-- <div style="display:block">
-            <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToSupplyStreamPage()">Supply Stream</v-ons-button>
-        </div> -->
     </section>
 </v-ons-page>
 </template>
@@ -46,6 +63,8 @@
 @import '../../node_modules/leaflet/dist/leaflet.css';
 @import '../css/player.css';
 @import '../../node_modules/leaflet-geosearch/assets/css/leaflet.css';
+@import '../css/labelColors.css';
+@import '../css/vShowSlideTransition.css';
 
 video {
     width: 100%;
@@ -65,19 +84,55 @@ body,
     width: 100vw;
 }
 
+#expandable_section_title {
+    font-variant: small-caps;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#expandable_section{
+    background-color: #eee;
+    background-size: 100% 1px;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
 #nav_buttons {
     height: 20vh;
 }
+
+#options_panel {
+    background-color: #ebf4f4;
+}
+
+#options_panel {
+    font-weight: 500;
+    /* color:purple; */
+    color: navy
+}
+
+#options_panel span {
+    font-size: 12px;
+    font-weight: 400;
+    margin-right: 0.5em;
+    /* color:navy; */
+    color: indigo
+}
+
+
 </style>
 
 <script>
 import SupplyStream from '@/components/SupplyStream.vue'
 import ViewStream from '@/components/ViewStream.vue'
+import RequestStreamFilters from '@/components/RequestStreamFilters.vue'
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import * as L from 'leaflet';
 import 'leaflet-defaulticon-compatibility';
+
+//import 'bootstrap'
 
 import {
     GeoSearchControl,
@@ -97,11 +152,12 @@ export default {
                 timeout: 5000,
                 maximumAge: 0
             },
-            myLocation:null,
+            myLocation: null,
             myLocationCircle: null,
             geoSearchLocation: null,
             geoSearchLocationCircle: null,
-            defaultRadius:92
+            defaultRadius: 92,
+            optionsPanelView: true
         }
     },
     methods: {
@@ -110,6 +166,17 @@ export default {
         },
         pushToSupplyStreamPage() {
             this.$emit('push-page', SupplyStream);
+        },
+        pushToFilterStreamPage() {
+            this.$emit('push-page', {
+                extends: RequestStreamFilters,
+                onsNavigatorOptions: {
+                    animation: 'lift',
+                    animationOptions: {
+                        duration: 0.5
+                    }
+                }
+            });
         },
         geoSearchEvent(_data) {
             console.log(_data)
