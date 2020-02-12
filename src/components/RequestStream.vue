@@ -9,8 +9,8 @@
         </div>
     </v-ons-toolbar>
     <v-ons-list>
-        <v-ons-list-item id="expandable_section" expandable :expanded.sync="optionsPanelView">
-            <span id="expandable_section_title">options</span>
+        <v-ons-list-item id="optionsPanel_section" expandable :expanded.sync="optionsPanelView">
+            <span id="optionsPanel_section_title">options</span>
             <div class="expandable-content ">
                 <div id="options_panel" class="phaedra-colors">
                     <v-ons-row>
@@ -64,7 +64,6 @@
 @import '../css/player.css';
 @import '../../node_modules/leaflet-geosearch/assets/css/leaflet.css';
 @import '../css/labelColors.css';
-@import '../css/vShowSlideTransition.css';
 
 video {
     width: 100%;
@@ -84,13 +83,13 @@ body,
     width: 100vw;
 }
 
-#expandable_section_title {
+#optionsPanel_section_title {
     font-variant: small-caps;
     font-size: 14px;
     font-weight: 500;
 }
 
-#expandable_section{
+#optionsPanel_section {
     background-color: #eee;
     background-size: 100% 1px;
     background-repeat: no-repeat;
@@ -108,7 +107,7 @@ body,
 #options_panel {
     font-weight: 500;
     /* color:purple; */
-    color: navy
+    color: navy;
 }
 
 #options_panel span {
@@ -116,7 +115,7 @@ body,
     font-weight: 400;
     margin-right: 0.5em;
     /* color:navy; */
-    color: indigo
+    color: indigo;
 }
 
 
