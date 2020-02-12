@@ -79,7 +79,7 @@ body {
 html,
 body,
 #map {
-    height: 35vh;
+    height: 45vh;
     width: 100vw;
 }
 
