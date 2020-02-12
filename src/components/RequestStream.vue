@@ -248,6 +248,8 @@ export default {
 
             this.map.on('geosearch/showlocation', this.geoSearchEvent)
 
+            document.getElementById('optionsPanel_section').showExpansion();
+
         },
         initLayers() {
 
