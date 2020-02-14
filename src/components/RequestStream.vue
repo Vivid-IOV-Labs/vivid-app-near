@@ -1,13 +1,13 @@
 <template>
 <v-ons-page>
-    <v-ons-toolbar>
+    <!-- <v-ons-toolbar>
         <div class="center">Request Stream</div>
         <div class="right">
             <v-ons-button @click="pushToFilterStreamPage" class="right" style="background-color: Transparent;">
                 <ons-icon style="color: black;" size="10px" icon="fa-filter"></ons-icon>
             </v-ons-button>
         </div>
-    </v-ons-toolbar>
+    </v-ons-toolbar> -->
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section" expandable :expanded.sync="optionsPanelView">
             <span id="optionsPanel_section_title">options</span>
@@ -52,7 +52,7 @@
             </v-ons-list-item>
         </v-ons-list>
         <div style="display:block">
-            <v-ons-button style="margin-top: 1em; width: 8em" @click="pushToViewStreamPage()">Send Request</v-ons-button>
+            <v-ons-button style="margin-top: 1em; width: 12em; background-color:blue" @click="pushToViewStreamPage()">Send Video Request</v-ons-button>
         </div>
     </section>
 </v-ons-page>
@@ -120,8 +120,6 @@ body,
 </style>
 
 <script>
-import ViewStream from '@/components/ViewStream.vue'
-import RequestStreamFilters from '@/components/RequestStreamFilters.vue'
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
@@ -157,18 +155,7 @@ export default {
     },
     methods: {
         pushToViewStreamPage() {
-            this.$emit('push-page', ViewStream);
-        },
-        pushToFilterStreamPage() {
-            this.$emit('push-page', {
-                extends: RequestStreamFilters,
-                onsNavigatorOptions: {
-                    animation: 'lift',
-                    animationOptions: {
-                        duration: 0.5
-                    }
-                }
-            });
+            this.$emit('push-page');
         },
         geoSearchEvent(_data) {
 

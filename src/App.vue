@@ -9,13 +9,14 @@ body {
 </style>
 
 <script>
-import RequestStream from '@/components/RequestStream.vue'
+//import RequestStream from '@/components/RequestStream.vue'
+import Home from '@/components/Home.vue'
 
 export default {
     name: 'main_page',
     data() {
         return {
-            pageStack: [RequestStream]
+            pageStack: [Home]
         };
     }
 }
