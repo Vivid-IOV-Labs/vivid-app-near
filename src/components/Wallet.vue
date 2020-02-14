@@ -1,19 +1,5 @@
 <template>
 <v-ons-page>
-    <!-- <v-ons-toolbar>
-        <div class="left">
-            <v-ons-back-button></v-ons-back-button>
-        </div>
-        <div class="center">Filters</div>
-
-    </v-ons-toolbar> -->
-    <!-- <h1>Vivid Wallet</h1> -->
-
-    <!-- <v-ons-card >
-      <div class="title">
-        
-      </div>
-    </v-ons-card> -->
     <v-ons-card >
       <div class="title">
         Balance
