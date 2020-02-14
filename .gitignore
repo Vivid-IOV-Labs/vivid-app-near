@@ -5,7 +5,9 @@ node_modules
 # local env files
 .env.local
 .env.*.local
-/deploy.sh
+
+# local script for deploying to github pages
+deploy.sh
 
 # Log files
 npm-debug.log*
