@@ -1,5 +1,5 @@
 module.exports = {
     publicPath: process.env.HEROKU_DEPLOY === 'true'
-        ? '/'
-        : '/vivid-app/'
+        ? '/' //This is for deployment to Heroku.
+        : '/vivid-app/' //This is for deployment to Github Pages.
 }
