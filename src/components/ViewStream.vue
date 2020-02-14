@@ -54,7 +54,7 @@ export default {
         return {
             webRTCAdaptor: null,
             streamId1: 'streamId',
-            streamId: 'stream1',
+            streamId: 'stream2',
             pc_config: null,
             sdpConstraints: {
                 OfferToReceiveAudio: true,
