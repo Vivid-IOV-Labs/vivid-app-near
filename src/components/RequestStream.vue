@@ -84,7 +84,7 @@ body,
 }
 
 #nav_buttons {
-    height: 20vh;
+    height: 15vh;
 }
 
 #optionsPanel_section_title {
