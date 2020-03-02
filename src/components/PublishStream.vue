@@ -1,11 +1,5 @@
 <template>
-  <v-ons-page id="supplyStreamPage">
-    <v-ons-toolbar>
-      <div class="left">
-        <v-ons-back-button @click.prevent="closeVideoStream"></v-ons-back-button>
-      </div>
-      <div class="center">Supply Stream</div>
-    </v-ons-toolbar>
+  <v-ons-page id="publishStreamPage">
     <div class="container">
       <div class="jumbotron">
         <p>
@@ -39,10 +33,9 @@
   </v-ons-page>
 </template>
 
-<style >
+<style scoped>
 @import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-@import "../css/player.css";
-@import "../css/supplyStream.css";
+@import "../css/publishStream.css";
 </style>
 
 <script>
@@ -55,7 +48,7 @@ import $ from "jquery";
 import { WebRTCAdaptor } from "@/js/webrtc_adaptor.js";
 
 export default {
-  name: "supplyStream",
+  name: "publishStream",
   data() {
     return {
       start_publish_button: {
@@ -215,3 +208,4 @@ export default {
   }
 };
 </script>
+
