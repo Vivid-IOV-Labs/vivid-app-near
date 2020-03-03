@@ -34,7 +34,7 @@
     <div id="view-video-panel">
       <div v-show="inBuiltRequest" class="container">
         <div class="jumbotron">
-          <video id="inBuiltVideoExample" src="../assets/video/santa4.mp4" autoplay playsinline></video>
+          <video id="inBuiltVideoExample" src="../assets/video/santa5.mp4" autoplay playsinline></video>
           <!-- <img
             id="play_button"
             src="images/play.png"
@@ -50,7 +50,7 @@
             <br />when it is live
           </div>
           <video id="remoteVideo" autoplay controls></video>
-          <img id="play_button" src="images/play.png" @click="playVideo" />
+          <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
           <input
             type="text"
             class="form-control"
