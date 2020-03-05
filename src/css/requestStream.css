@@ -99,8 +99,8 @@ html,
 }
 
 #vivid_logo {
-  width: 17.2%;
-  height: 9.7%;
+  width: 15.2%;
+  height: 7.7%;
   position: absolute;
   z-index: 1000;
   margin-top: 0%;
@@ -111,14 +111,14 @@ html,
 
 @media all and (min-width: 375px) and (min-height: 812px) {
   #vivid_logo {
-    width: 17.2%;
+    width: 15.2%;
     height: 7.7%;
     position: absolute;
     z-index: 1000;
     margin-top: 0%;
     margin-right: 0%;
     margin-bottom: 0%;
-    margin-left: 78.1%;
+    margin-left: 82.1%;
   }
 }
 

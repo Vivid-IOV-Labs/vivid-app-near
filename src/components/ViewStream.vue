@@ -190,6 +190,8 @@ export default {
     }
   },
   mounted() {
+    this.playViewingStream()
+
     // this.startPayingAnimation();
     $(document).on("postpop", "#navigator", function() {
       console.log("postpop");
