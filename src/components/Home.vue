@@ -25,6 +25,7 @@
       :tabs="tabs"
       :index.sync="tabbarIndex"
       @push-page="pushToViewStreamPage"
+      @back-page="popViewPage"
     ></v-ons-tabbar>
   </v-ons-page>
 </template>
@@ -70,6 +71,9 @@ export default {
     },
     pushToViewStreamPage() {
       this.$emit("push-page", ViewStream);
+    },
+    popViewPage(){
+      this.$emit("back-page")
     }
   }
 };

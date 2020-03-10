@@ -67,19 +67,25 @@
           style="margin-top: 1em; width: 10em;background-color:#1d1d1b; color:#16dbdb;font-weight: 550;"
           @click="pushToSupplyStreamPage()"
         >Supply Stream</v-ons-button>-->
-        <v-ons-button
+        <!-- <v-ons-button
           id="pauseStreamButton"
           :disabled="streamingPaused"
           @click="pauseViewingStream()"
         >
           <ons-icon size="0.75em" icon="fa-pause"></ons-icon>
-        </v-ons-button>
-        <v-ons-button
+        </v-ons-button> -->
+        <!-- <v-ons-button
           id="playStreamButton"
           :disabled="!streamingPaused"
           @click="playViewingStream()"
         >
           <ons-icon size="0.75em" icon="fa-play"></ons-icon>
+        </v-ons-button> -->
+        <v-ons-button
+          id="endStreamButton"
+          @click="endViewingStream()"
+        >
+         End Stream
         </v-ons-button>
       </div>
     </section>
@@ -123,7 +129,8 @@ export default {
       inBuiltRequest: true,
       viewControlPanelView: false,
       PayToUserName: "@ma06rii1",
-      streamingPaused: false
+      streamingPaused: false,
+      metaTag:null
     };
   },
   computed: {
@@ -145,10 +152,12 @@ export default {
     pauseViewingStream() {
       document.getElementById("inBuiltVideoExample").pause();
       this.streamingPaused = true;
+      this.removeWebMonetisationMetaTag()
     },
     playViewingStream() {
       document.getElementById("inBuiltVideoExample").play();
       this.streamingPaused = false;
+      this.addWebMonetisationMetaTag()
     },
     startPayingAnimation() {
       $("#payingLabel").fadeIn(800, () => {
@@ -187,6 +196,22 @@ export default {
     },
     stopPlaying() {
       this.webRTCAdaptor.stop();
+    },
+    removeWebMonetisationMetaTag(){
+      document.querySelector('meta[name="monetization"]').remove()
+
+    },
+    addWebMonetisationMetaTag(){
+      this.metaTag = document.createElement('meta')
+      this.metaTag.name = "monetization"
+      this.metaTag.content = "$twitter.xrptipbot.com/ma06rii1"
+
+      document.head.appendChild(this.metaTag)
+    },
+    endViewingStream(){
+      this.removeWebMonetisationMetaTag()
+       this.$emit("back-page");
+
     }
   },
   mounted() {
@@ -247,6 +272,13 @@ export default {
         //alert(JSON.stringify(error));
       }
     });
+  },
+  created(){
+    this.addWebMonetisationMetaTag()
+  },
+  beforeDestroy(){
+     this.removeWebMonetisationMetaTag()
+
   }
 };
 </script>

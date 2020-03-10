@@ -21,8 +21,8 @@ git commit -m 'deploy'
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
-git remote add ghpagesdeploy https://github.com/Vivid-IOV-Labs/vivid-app.git 
-git push -f ghpagesdeploy master:gh-pages
+git remote add ghpagesdeploy https://github.com/Vivid-IOV-Labs/vivid-app-near.git 
+git push -f ghpagesdeploy master:gh-pages-near
 
 
 
