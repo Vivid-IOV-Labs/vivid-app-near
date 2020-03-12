@@ -149,16 +149,18 @@ export default {
     }
   },
   methods: {
-    pauseViewingStream() {
-      document.getElementById("inBuiltVideoExample").pause();
-      this.streamingPaused = true;
-      this.removeWebMonetisationMetaTag()
-    },
-    playViewingStream() {
-      document.getElementById("inBuiltVideoExample").play();
-      this.streamingPaused = false;
-      this.addWebMonetisationMetaTag()
-    },
+    // pauseViewingStream() {
+    //   document.getElementById("inBuiltVideoExample").pause();
+    //   this.streamingPaused = true;
+    //   this.removeWebMonetisationMetaTag()
+    // },
+    // playViewingStream() {
+    //   document.getElementById("inBuiltVideoExample").play();
+    //   this.streamingPaused = false;
+    //   this.addWebMonetisationMetaTag()
+    // },
+    pauseViewingStream() {},
+    playViewingStream() {},
     startPayingAnimation() {
       $("#payingLabel").fadeIn(800, () => {
         $("#payingLabel").fadeOut(800, () => {
@@ -215,7 +217,7 @@ export default {
     }
   },
   mounted() {
-    this.playViewingStream()
+    //this.playViewingStream()
 
     // this.startPayingAnimation();
     $(document).on("postpop", "#navigator", function() {
@@ -274,10 +276,10 @@ export default {
     });
   },
   created(){
-    this.addWebMonetisationMetaTag()
+    //this.addWebMonetisationMetaTag()
   },
   beforeDestroy(){
-     this.removeWebMonetisationMetaTag()
+     //this.removeWebMonetisationMetaTag()
 
   }
 };

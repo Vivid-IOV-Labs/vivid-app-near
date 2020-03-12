@@ -106,9 +106,6 @@ export default {
     };
   },
   methods: {
-    testit() {
-      console.log("change the page");
-    },
     pushToViewStreamPage() {
       this.$emit("push-page");
     },
