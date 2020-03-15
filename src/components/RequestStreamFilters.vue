@@ -122,7 +122,7 @@ export default {
       tipOfferedAmount: 0.05,
       currencyView: false,
       currencyTickers: ["USD", "GBP", "NEAR"],
-      currencyTickerSelected: "USD"
+      currencyTickerSelected: "NEAR"
     };
   },
   methods: {

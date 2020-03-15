@@ -1,5 +1,5 @@
 <template>
-  <v-ons-navigator swipeable :page-stack="pageStack" @push-page="pageStack.push($event)" @back-page="pageStack.pop()"></v-ons-navigator>
+<v-ons-navigator swipeable :page-stack="pageStack" @push-page="pageStack.push($event)" @back-page="pageStack.pop()" @reset-home-page="pageStack.pop(); pageStack.push($event)"></v-ons-navigator>
 </template>
 
 <style>
@@ -8,23 +8,29 @@
 
 <script>
 //import RequestStream from '@/components/RequestStream.vue'
-import Home from "@/components/Home.vue";
+//import Home from "@/components/Home.vue";
+import Login from "@/components/Login.vue"
 
 export default {
-  name: "main_page",
-  data() {
-    return {
-      pageStack: [Home]
-    };
-  }
-  //   mounted() {
-  //     this.importAll(
-  //       require.context(
-  //         "../node_modules/leaflet-extra-markers/dist/img",
-  //         true,
-  //         /\.png$/
-  //       )
-  //     );
-  //   }
+    name: "main_page",
+    // components:{
+    //     Home
+    // },
+    data() {
+        return {
+            pageStack: [Login]
+        };
+    }
+    //   mounted() {
+    //     this.importAll(
+    //       require.context(
+    //         "../node_modules/leaflet-extra-markers/dist/img",
+    //         true,
+    //         /\.png$/
+    //       )
+    //     );
+    //   }
+    //,
+
 };
 </script>

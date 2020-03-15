@@ -213,3 +213,16 @@ html,
   color: #16dbdb;
   font-weight: 550;
 }
+
+.slimPinIcon {
+}
+
+.profilePic {
+  width: 5em !important;
+  height: 5em !important;
+}
+
+.purpleStreamerIcon {
+  width: 5em !important;
+  height: 5em !important;
+}
