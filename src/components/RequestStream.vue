@@ -23,7 +23,7 @@
                     <v-ons-row>
                         <v-ons-col>
                             <span class="optionsPanelRowTitle">Tip Offered:</span>
-                            <span class="optionsPanelRow">$0.05/min</span>
+                            <span class="optionsPanelRow">NEAR 0.05/min</span>
                         </v-ons-col>
                     </v-ons-row>
                     <v-ons-row>
@@ -51,7 +51,7 @@
         </v-ons-list-item>-->
         </v-ons-list>
         <div id="pushToViewStreamPageButton">
-            <v-ons-button @click="pushToViewStreamPage()">Send Video Request</v-ons-button>
+            <v-ons-button @click="fromRequest()">Send Video Request</v-ons-button>
         </div>
     </section>
 </v-ons-page>
@@ -83,11 +83,12 @@ import {
 } from "leaflet-geosearch";
 const myProvider = new EsriProvider();
 
+import {
+    mapMutations
+} from 'vuex';
+
 export default {
     name: "requestStream",
-    // components: {
-    //   myElaboratePopupContent
-    // },
     data() {
         return {
             map: null,
@@ -107,52 +108,61 @@ export default {
             streamerIcon: null,
             redMarker: null,
             buttonGo: null,
-            slimPinIcon:null,
-            purpleStreamerIcon:null,
-            templateForm:null
+            slimPinIcon: null,
+            purpleStreamerIcon: null,
+            templateForm: null
         };
     },
     methods: {
-        layerClickHandler (e) {
+        ...mapMutations({
+            _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
 
-  var marker = e.target
-      //properties = e.target.feature.properties;
+        }),
+        layerClickHandler(e) {
 
-       //return this.map.hasOwnProperty(normalizeName(name))
-    //return Object.prototype.hasOwnProperty.call(this.map, normalizeName(name));
-  
-  //if (marker.hasOwnProperty('_popup')) {
-if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
-    marker.unbindPopup();
-  }
+            var marker = e.target
+            //properties = e.target.feature.properties;
 
-  marker.bindPopup(this.templateForm);
-  marker.openPopup();
+            //return this.map.hasOwnProperty(normalizeName(name))
+            //return Object.prototype.hasOwnProperty.call(this.map, normalizeName(name));
 
-//   L.DomUtil.get('value-arc').textContent = properties.arc;
-//   L.DomUtil.get('value-speed').textContent = properties.speed;
+            //if (marker.hasOwnProperty('_popup')) {
+            if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
+                marker.unbindPopup();
+            }
 
-//   var inputSpeed = L.DomUtil.get('input-speed');
-//   inputSpeed.value = properties.speed;
-//   L.DomEvent.addListener(inputSpeed, 'change', function (e) {
-//     properties.speed = e.target.value;
-//   });
+            marker.bindPopup(this.templateForm);
+            marker.openPopup();
 
+            //   L.DomUtil.get('value-arc').textContent = properties.arc;
+            //   L.DomUtil.get('value-speed').textContent = properties.speed;
 
+            //   var inputSpeed = L.DomUtil.get('input-speed');
+            //   inputSpeed.value = properties.speed;
+            //   L.DomEvent.addListener(inputSpeed, 'change', function (e) {
+            //     properties.speed = e.target.value;
+            //   });
 
-  var buttonSubmit = L.DomUtil.get('button-submit');
+            var buttonSubmit = L.DomUtil.get('button-submit');
 
-   console.log(buttonSubmit)
+            console.log(buttonSubmit)
 
-  
-  L.DomEvent.addListener(buttonSubmit, 'click', function () {
-    //marker.closePopup();
-    console.log('button clicked to submit')
-  });
+            L.DomEvent.addListener(buttonSubmit, 'click', function () {
+                //marker.closePopup();
+                console.log('button clicked to submit')
+            });
 
- 
+        },
+        fromJoin(){
+            this._setInBuiltRequestDemo(true);
+            this.pushToViewStreamPage()
 
-},
+        },
+        fromRequest(){
+            this._setInBuiltRequestDemo(false);
+            this.pushToViewStreamPage()
+            
+        },
         pushToViewStreamPage() {
             this.$emit("push-page");
         },
@@ -160,39 +170,51 @@ if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
             //const template = this.$refs.foo.$el.innerHTML;
             //Add Marker for IDEALondon location
 
-//             // eslint-disable-next-line  
-// delete L.Icon.Default.prototype._getIconUrl  
-// // eslint-disable-next-line  
-// L.Icon.Default.mergeOptions({  
-//   // iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),  
-//   // iconUrl: require('leaflet/dist/images/marker-icon.png'),  
-//   // shadowUrl: require('leaflet/dist/images/marker-shadow.png')  
-//    iconRetinaUrl: require('~@/components/slim_pin.svg'),  
-//   iconUrl: require('~@/components/slim_pin.svg'),  
-//   shadowUrl: require('~@/components/slim_pin.svg')  
-// })
+            //             // eslint-disable-next-line  
+            // delete L.Icon.Default.prototype._getIconUrl  
+            // // eslint-disable-next-line  
+            // L.Icon.Default.mergeOptions({  
+            //   // iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),  
+            //   // iconUrl: require('leaflet/dist/images/marker-icon.png'),  
+            //   // shadowUrl: require('leaflet/dist/images/marker-shadow.png')  
+            //    iconRetinaUrl: require('~@/components/slim_pin.svg'),  
+            //   iconUrl: require('~@/components/slim_pin.svg'),  
+            //   shadowUrl: require('~@/components/slim_pin.svg')  
+            // })
 
+            //           var LeafIcon = L.Icon.extend({
+            // 	options: {
+            // //		shadowUrl: require('@/assets/markers/slim_pin.svg'), 
+            // 		// iconSize:     [38, 95],
+            // 		// shadowSize:   [50, 64],
+            // 		// iconAnchor:   [22, 94],
+            // 		// shadowAnchor: [4, 62],
+            // 		// popupAnchor:  [-3, -76]
+            // 	}
+            // });
 
+            // var greenIcon = new LeafIcon({iconUrl: require('@/assets/markers/slim_pin.svg')});
 
-  //           var LeafIcon = L.Icon.extend({
-	// 	options: {
-  // //			shadowUrl: require('@/assets/markers/slim_pin.svg'), 
-	// 		// iconSize:     [38, 95],
-	// 		// shadowSize:   [50, 64],
-	// 		// iconAnchor:   [22, 94],
-	// 		// shadowAnchor: [4, 62],
-	// 		// popupAnchor:  [-3, -76]
-	// 	}
-	// });
-
-	// var greenIcon = new LeafIcon({iconUrl: require('@/assets/markers/slim_pin.svg')});
-
-            L.marker([51.520748, -0.08504],{icon: this.purpleStreamerIcon})
+            L.marker([51.520748, -0.08504], {
+                    icon: this.purpleStreamerIcon
+                })
                 .addTo(this.map)
-            .bindPopup("IEDALondon, London EC2A 2BB");
-            //.bindPopup(this.templateForm);
+                //.bindPopup("IEDALondon, London EC2A 2BB");
+                .bindPopup(this.templateForm, {
+                    maxWidth: 1060
+                })
+                .on('popupopen', () => {
+                    document.getElementById('button-submit').addEventListener("click", () => {
+                        this.fromJoin()
 
-           L.circle([51.520748, -0.08504], this.defaultRadius).addTo(this.map);
+                    });
+                })
+                .on('popupclose', () => {
+                    //console.log('popup closed')
+                })
+                .openPopup();
+
+            L.circle([51.520748, -0.08504], this.defaultRadius).addTo(this.map);
 
             this.map.setView([51.520748, -0.08504], 15);
         },
@@ -203,11 +225,13 @@ if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
             if (this.geoSearchLocation) this.map.removeLayer(this.geoSearchLocation);
             if (this.geoSearchLocationCircle)
                 this.map.removeLayer(this.geoSearchLocationCircle);
-            
+
             //Readd current streamer
             this.addIDEALondonMarker();
 
-            this.geoSearchLocation = L.marker([_data.location.y, _data.location.x],{icon: this.slimPinIcon})
+            this.geoSearchLocation = L.marker([_data.location.y, _data.location.x], {
+                    icon: this.slimPinIcon
+                })
                 .addTo(this.map)
                 .bindPopup(_data.location.label)
                 .openPopup();
@@ -229,14 +253,16 @@ if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
             //   });
 
             var myProfileIcon = L.icon({
-    iconUrl: require('@/assets/markers/profile_pic.png'),
-    iconSize: [38, 95],
-    iconAnchor: [28, 40],
-    popupAnchor: [-1, -36],
-     className:'profilePic'
-});
+                iconUrl: require('@/assets/markers/profile_pic.png'),
+                iconSize: [38, 95],
+                iconAnchor: [28, 40],
+                popupAnchor: [-1, -36],
+                className: 'profilePic'
+            });
 
-            this.myLocation = L.marker(e.latlng,{icon: myProfileIcon})
+            this.myLocation = L.marker(e.latlng, {
+                    icon: myProfileIcon
+                })
                 .addTo(this.map)
                 .bindPopup("You are here")
                 .openPopup();
@@ -249,25 +275,7 @@ if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
             this.map.setView([51.520748, -0.08504], 15);
         },
         initMap() {
-            this.map = L.map("map",
-             L.geoJson({
-      "type": "FeatureCollection",
-      "features": [{
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [0,0]
-        },
-        "properties": {
-          "arc": 321,
-          "speed": 123
-        }
-      }]
-    }, {
-      onEachFeature: function (feature, layer) {
-        layer.on('click', this.layerClickHandler);
-      }
-    })).setView([51.520748, -0.08504], 15);
+            this.map = L.map("map").setView([51.520748, -0.08504], 15);
 
             //   this.map.locate({
             //     setView: true,
@@ -312,10 +320,7 @@ if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
                 }
             ).addTo(this.map);
 
-	
-
-	//L.marker([51.5, -0.09], {icon: greenIcon}).bindPopup("I am a green leaf.").addTo(map);
-
+            //L.marker([51.5, -0.09], {icon: greenIcon}).bindPopup("I am a green leaf.").addTo(map);
 
         },
         locationSuccess(pos) {
@@ -333,50 +338,51 @@ if (Object.prototype.hasOwnProperty.call(marker, '_popup')) {
     },
     mounted() {
 
-//         this.templateForm = '<form id="popup-form">\
-//   <label for="input-speed">New speed:</label>\
-//   <input id="input-speed" class="popup-input" type="number" />\
-//   <table class="popup-table">\
-//     <tr class="popup-table-row">\
-//       <th class="popup-table-header">Arc numer:</th>\
-//       <td id="value-arc" class="popup-table-data"></td>\
-//     </tr>\
-//     <tr class="popup-table-row">\
-//       <th class="popup-table-header">Current speed:</th>\
-//       <td id="value-speed" class="popup-table-data"></td>\
-//     </tr>\
-//   </table>\
-//   <button id="button-submit" type="button">Save Changes</button>\
-// </form>';
+        //         this.templateForm = '<form id="popup-form">\
+        //   <label for="input-speed">New speed:</label>\
+        //   <input id="input-speed" class="popup-input" type="number" />\
+        //   <table class="popup-table">\
+        //     <tr class="popup-table-row">\
+        //       <th class="popup-table-header">Arc numer:</th>\
+        //       <td id="value-arc" class="popup-table-data"></td>\
+        //     </tr>\
+        //     <tr class="popup-table-row">\
+        //       <th class="popup-table-header">Current speed:</th>\
+        //       <td id="value-speed" class="popup-table-data"></td>\
+        //     </tr>\
+        //   </table>\
+        //   <button id="button-submit" type="button">Save Changes</button>\
+        // </form>';
 
-this.templateForm = `<button id="button-submit" type="button">Save Changes</button>`
+        // this.templateForm = `<button id="button-submit" type="button">Join Stream</button>`
 
+        this.templateForm = `<v-ons-button id="button-submit" type="button">Join</v-ons-button>`
 
         this.initMap();
         this.initLayers();
 
         this.slimPinIcon = L.icon({
-          //iconUrl: "slim_pin.svg",
-          iconUrl: require('@/assets/markers/slim_pin.svg'), 
-          iconSize: [28, 85], // size of the icon
-          // iconSize: [38, 95],
-          iconAnchor: [13, 63],
-          className:'slimPinIcon'
-          // popupAnchor: [-3, -76],
-          // shadowSize: [68, 95],
-          // shadowAnchor: [22, 94]
+            //iconUrl: "slim_pin.svg",
+            iconUrl: require('@/assets/markers/slim_pin.svg'),
+            iconSize: [28, 85], // size of the icon
+            // iconSize: [38, 95],
+            iconAnchor: [13, 63],
+            className: 'slimPinIcon',
+            popupAnchor: [0, -60],
+            // shadowSize: [68, 95],
+            // shadowAnchor: [22, 94]
         });
 
-         this.purpleStreamerIcon = L.icon({
-          //iconUrl: "slim_pin.svg",
-          iconUrl: require('@/assets/markers/purple_user.png'), 
-          iconSize: [28, 85], // size of the icon
-          // iconSize: [38, 95],
-          iconAnchor: [30, 52],
-          className:'purpleStreamerIcon',
-          popupAnchor: [-3, -46],
-          // shadowSize: [68, 95],
-          // shadowAnchor: [22, 94]
+        this.purpleStreamerIcon = L.icon({
+            //iconUrl: "slim_pin.svg",
+            iconUrl: require('@/assets/markers/purple_user.png'),
+            iconSize: [28, 85], // size of the icon
+            // iconSize: [38, 95],
+            iconAnchor: [30, 52],
+            className: 'purpleStreamerIcon',
+            popupAnchor: [-3, -46],
+            // shadowSize: [68, 95],
+            // shadowAnchor: [22, 94]
         });
 
         this.addIDEALondonMarker();

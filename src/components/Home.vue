@@ -56,7 +56,7 @@ export default {
             tabbarIndex: 1,
             segmentIndex: 1,
             walletBalance2: 0,
-            getSender2:null
+            getSender2: null
         };
     },
     methods: {
@@ -83,9 +83,9 @@ export default {
         async connectToNear() {
 
         },
-        async reHydrate(){
-          this.getSender2 = await window.near.account(window.wallet.getAccountId())
-          this.walletBalance2 = (await this.getSender2.state()).amount
+        async reHydrate() {
+            this.getSender2 = await window.near.account(window.wallet.getAccountId())
+            this.walletBalance2 = (await this.getSender2.state()).amount
         }
     },
     created() {
@@ -113,9 +113,11 @@ export default {
 
     },
     provide: function () {
-    return {
-    walletService:() =>{ return window.nearlib.utils.format.formatNearAmount(this.walletBalance2)}
+        return {
+            walletService: () => {
+                return window.nearlib.utils.format.formatNearAmount(this.walletBalance2)
+            }
+        }
     }
-  }
 };
 </script>

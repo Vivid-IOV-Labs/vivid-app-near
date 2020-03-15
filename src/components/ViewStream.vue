@@ -2,7 +2,7 @@
 <v-ons-page id="viewStreamPage">
     <v-ons-toolbar>
         <div class="left">
-            <v-ons-back-button></v-ons-back-button>
+            <v-ons-back-button @click.prevent="endViewingStream()"></v-ons-back-button>
         </div>
         <div class="center">
             <span class="onsPageTitleStyle">View Stream</span>
@@ -29,12 +29,12 @@
         </v-ons-list-item>
     </v-ons-list>
     <div id="view-video-panel">
-        <div v-show="inBuiltRequest" class="container">
+        <div v-show="isInBuiltRequestDemo()" class="container">
             <div class="jumbotron">
-                <video id="inBuiltVideoExample" src="../assets/video/santa5.mp4" autoplay playsinline></video>
+                <video id="inBuiltVideoExample" src="../assets/video/santa5.mp4" playsinline></video>
             </div>
         </div>
-        <div v-show="!inBuiltRequest" class="container">
+        <div v-show="!isInBuiltRequestDemo()" class="container">
             <div class="jumbotron">
                 <div id="video_info">
                     Stream will start playing automatically
@@ -42,11 +42,11 @@
                 </div>
                 <video id="remoteVideo" autoplay controls></video>
                 <!-- <img id="play_button" src="images/play.png" @click="playVideo" /> -->
-                <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" />
+                <!-- <input type="text" class="form-control" v-model="streamId" id="streamName" placeholder="Type stream name" /> -->
             </div>
         </div>
     </div>
-    <section id="view_stream_nav_buttons_section">
+    <section v-show="isInBuiltRequestDemo()" id="view_stream_nav_buttons_section">
         <div id="view_stream_nav_buttons_panel">
             <v-ons-button id="endStreamButton" @click="endViewingStream()">
                 End Stream
@@ -63,6 +63,11 @@
 </style>
 
 <script>
+import {
+    mapMutations,
+    mapGetters
+} from 'vuex';
+
 import "webrtc-adapter";
 //import $ from 'jquery'
 import {
@@ -77,6 +82,9 @@ import BigNumber from "bignumber.js";
 
 export default {
     name: "viewStream",
+    // props:{
+    //     inBuiltRequest:Boolean
+    // },
     data() {
         return {
             webRTCAdaptor: null,
@@ -115,7 +123,7 @@ export default {
             ).toFormat();
         },
         formattedTotalAmountNear: function () {
-            return parseFloat(this.nearTotalTickerAmount / (Math.pow(10, 24))).toFixed(2)
+            return parseFloat(this.nearTotalTickerAmount / (Math.pow(10, 24))).toFixed(4)
         }
     },
     methods: {
@@ -129,6 +137,14 @@ export default {
         //   this.streamingPaused = false;
         //   this.addWebMonetisationMetaTag()
         // },
+        ...mapMutations({
+            _setInBuiltRequestDemo: 'setInBuiltRequestDemo'
+
+        }),
+        ...mapGetters({
+            isInBuiltRequestDemo: 'isInBuiltRequestDemo'
+
+        }),
         pauseViewingStream() {},
         playViewingStream() {
             document.getElementById("inBuiltVideoExample").play();
@@ -183,7 +199,7 @@ export default {
 
             // all inputs in nearlib are denominated in yoctoNEAR (1 NEAR = 10^24 yoctoNEAR)
             // use this helper function to convert NEAR to yoctoNEAR
-            let amount_to_send = window.nearlib.utils.format.parseNearAmount('0.15')
+            let amount_to_send = window.nearlib.utils.format.parseNearAmount('0.00083333')
 
             let sender, final
 
@@ -225,7 +241,8 @@ export default {
         }
     },
     mounted() {
-        this.playViewingStream()
+
+        // this.playViewingStream()
 
         // $(document).on("postpop", "#navigator", function () {
         //     console.log("postpop");
@@ -281,8 +298,7 @@ export default {
                 //alert(JSON.stringify(error));
             }
         });
-    },
-    created() {
+
         this.config = {
             networkId: 'default', // this can be any label to namespace user accounts
             nodeUrl: "https://rpc.nearprotocol.com", // this endpoint must point to the network you want to reach
@@ -292,10 +308,35 @@ export default {
             }
         };
 
-        this.makeNearPayment()
-        this.nearPaymentIntervals = setInterval(() => {
+        if (this.isInBuiltRequestDemo()) {
             this.makeNearPayment()
-        }, 3500)
+            this.nearPaymentIntervals = setInterval(() => {
+                this.makeNearPayment()
+            }, 3500)
+
+            this.playViewingStream()
+
+        }
+    },
+    created() {
+        // this.config = {
+        //     networkId: 'default', // this can be any label to namespace user accounts
+        //     nodeUrl: "https://rpc.nearprotocol.com", // this endpoint must point to the network you want to reach
+        //     walletUrl: "http://wallet.nearprotocol.com", // this endpoint must exist for the wallet to work
+        //     deps: {
+        //         keyStore: new window.nearlib.keyStores.BrowserLocalStorageKeyStore() // keys are stored as plaintext in LocalStorage
+        //     }
+        // };
+
+        // if (this.isInBuiltRequestDemo()) {
+        //     this.makeNearPayment()
+        //     this.nearPaymentIntervals = setInterval(() => {
+        //         this.makeNearPayment()
+        //     }, 3500)
+
+        //     this.playViewingStream()
+
+        // }
 
     },
     beforeDestroy() {

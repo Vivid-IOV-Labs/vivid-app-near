@@ -226,3 +226,17 @@ html,
   width: 5em !important;
   height: 5em !important;
 }
+
+#button-submit {
+  background-color: greenyellow;
+  margin-top: 5%;
+  margin-right: 15%;
+  margin-bottom: 5%;
+  margin-left: 15%;
+  padding-top: 10% !important;
+  padding-left: 10% !important;
+  padding-bottom: 10% !important;
+  padding-right: 10% !important;
+  font-weight: 550;
+  border-radius: 5px;
+}
