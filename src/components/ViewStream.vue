@@ -15,7 +15,7 @@
     <v-ons-list>
         <v-ons-list-item id="optionsPanel_section_viewStream">
             <div id="pay-info-section">
-                <span v-show="isWebMonetization" id="payingLabel" class="badge badge-warning">
+                <span v-show="isInBuiltRequestDemo()" id="payingLabel" class="badge badge-warning">
                     Paying
                     <strong>
                         <i>{{PayToUserName}}</i>
@@ -78,7 +78,7 @@ import SupplyStream from "@/components/SupplyStream.vue";
 
 // import $ from "jquery";
 
-import BigNumber from "bignumber.js";
+//import BigNumber from "bignumber.js";
 
 export default {
     name: "viewStream",
@@ -102,7 +102,7 @@ export default {
             streamNameBox: "stream1",
             inBuiltRequest: true,
             viewControlPanelView: false,
-            PayToUserName: "@ma06rii1",
+            PayToUserName: "@ma06rii",
             streamingPaused: false,
             metaTag: null,
             config: null,
@@ -110,18 +110,18 @@ export default {
         };
     },
     computed: {
-        isWebMonetization: function () {
-            return this.$vueWebMonetizationStart &&
-                this.$vueWebMonetizationStart.state === "started" ?
-                true :
-                false;
-        },
-        formattedTotalAmount: function () {
-            return new BigNumber(
-                this.$vueWebMonetizationProgress.totalAmount,
-                10
-            ).toFormat();
-        },
+        // isWebMonetization: function () {
+        //     return this.$vueWebMonetizationStart &&
+        //         this.$vueWebMonetizationStart.state === "started" ?
+        //         true :
+        //         false;
+        // },
+        // formattedTotalAmount: function () {
+        //     return new BigNumber(
+        //         this.$vueWebMonetizationProgress.totalAmount,
+        //         10
+        //     ).toFormat();
+        // },
         formattedTotalAmountNear: function () {
             return parseFloat(this.nearTotalTickerAmount / (Math.pow(10, 24))).toFixed(4)
         }

@@ -12,8 +12,8 @@ Vue.use(VueOnsen)
 //THIS IS TO IMPORT THE 'VUEX' STORE TO BE USED IN THE VUE APP.
 import store from './store'
 
-import VueWebMonetization from 'vuejs-web-monetization'
-Vue.use(VueWebMonetization)
+// import VueWebMonetization from 'vuejs-web-monetization'
+// Vue.use(VueWebMonetization)
 
 import App from './App.vue'
 
